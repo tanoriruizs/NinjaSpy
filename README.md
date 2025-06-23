@@ -1,66 +1,138 @@
-# NinjaSpy - Keylogger
 
-NinjaSpy es un keylogger básico creado en Python para una presentación sobre ciberseguridad en la universidad. Este proyecto tiene como objetivo educativo demostrar cómo funcionan los keyloggers y cómo pueden ser utilizados para atacar equipos, así como las maneras de prevenir dichos ataques.
+# NinjaSpy v2.0 | Keylogger Avanzado 🔐🕵️
 
-## Características
+NinjaSpy es una herramienta de keylogging avanzada desarrollada en Python con fines educativos y de concientización en ciberseguridad. Esta nueva versión sustituye el envío por correo tradicional por cifrado y exfiltración vía Telegram, incorporando buenas prácticas como el uso de entornos virtuales, cifrado con Fernet y compatibilidad con ejecutables.
 
-- Captura todas las pulsaciones de teclado.
-- Guarda las pulsaciones en un archivo de texto.
-- Envía el archivo de registro por correo electrónico a intervalos regulares.
-- Fácil de entender y modificar para propósitos educativos.
+> **Propósito:** Educativo – análisis y demostración de técnicas ofensivas de ciberseguridad
 
-## Requisitos
+---
 
-- Python 3.x
-- Bibliotecas adicionales: `pynput`, `smtplib`, `email`
+## 🆚 Comparativa de versiones
 
-## Instalación
+| Función                           | Versión Antigua | Versión 2.0 (Actual) ✅ |
+|----------------------------------|------------------|-------------------------|
+| Captura de teclas                | ✅               | ✅                      |
+| Envío por correo (SMTP)          | ✅               | ❌                      |
+| Envío por Telegram               | ❌               | ✅                      |
+| Cifrado Fernet                   | ❌               | ✅                      |
+| IP, ciudad, host, usuario        | ❌               | ✅                      |
+| Compilación a `.exe`             | ❌               | ✅                      |
+| Registro en `%APPDATA%`          | ❌               | ✅                      |
+| Soporte para desencriptar logs   | ❌               | ✅                      |
+| Persistencia/Auto ejecución      | ❌               | ⚠️ *(No incluida aún)*  |
 
-1. Clona este repositorio:
+---
+
+## 🚀 Características
+
+- Captura silenciosa de pulsaciones del teclado (keylogger).
+- Guarda registros en `%APPDATA%\NinjaSpy\log.txt`.
+- Cifra el archivo de log usando Fernet.
+- Recolecta IP pública, ciudad, usuario y hostname.
+- Envía logs cifrados a través de un bot de Telegram.
+- Constructor interactivo con opción de compilación `.exe`.
+- Herramienta para desencriptar logs recuperados.
+
+---
+
+## 🧰 Requisitos
+
+- Python 3.10 o superior
+- Telegram Bot Token
+- Chat ID (tu usuario o grupo en Telegram)
+- Sistema operativo Windows
+
+---
+
+## 🛠 Instalación
+
+1. Clona el repositorio o extrae el `.zip`:
     ```bash
-    git clone https://github.com/tuusuario/NinjaSpy.git
-    ```
-2. Navega al directorio del proyecto:
-    ```bash
+    git clone https://github.com/tanoriruizs/NinjaSpy.git
     cd NinjaSpy
     ```
-3. Instala las dependencias:
+
+2. Crea un entorno virtual:
     ```bash
-    pip install pynput
+    python -m venv venv
     ```
 
-## Configuración
-
-1. **Generar un código de aplicación en Google:**
-   - Para enviar correos a través de Gmail, necesitas generar un código de aplicación. Esto es necesario porque Google requiere un método de autenticación seguro para aplicaciones menos seguras. Puedes seguir [esta guía](https://support.google.com/accounts/answer/185833) para crear un código de aplicación.
-   
-2. **Actualizar el archivo `ninjaspy.py`:**
-   - Abre el archivo `ninjaspy.py` en un editor de texto.
-   - Cambia las siguientes constantes a tus valores específicos:
-     ```python
-     FROM_EMAIL = "tucorreo@gmail.com"  # Cambia esto a tu correo electrónico
-     TO_EMAIL = "destinatario@yopmail.com"  # Cambia esto al correo de destino
-     APP_CODE = "tu_codigo_de_aplicacion"  # Cambia esto al código de aplicación generado en Google
-     ```
-
-## Uso
-
-1. Ejecuta el keylogger:
+3. Activa el entorno:
     ```bash
-    python ninjaspy.py
+    venv\Scripts\activate
     ```
-2. Para detener el keylogger, simplemente cierra la ventana del terminal o utiliza una combinación de teclas para finalizar el proceso.
 
-## Prevención contra Keyloggers
+4. Instala las dependencias:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-Aquí hay algunas recomendaciones para proteger tu equipo contra keyloggers:
+---
 
-1. **Mantén tu software actualizado:** Asegúrate de que tu sistema operativo y todos los programas estén siempre actualizados.
-2. **Utiliza un antivirus confiable:** Instala y mantén actualizado un buen software antivirus que pueda detectar y eliminar keyloggers.
-3. **Ten cuidado con los correos electrónicos y descargas:** No abras archivos adjuntos ni hagas clic en enlaces de correos electrónicos sospechosos, y descarga software solo de fuentes confiables.
-4. **Usa autenticación multifactor:** Esto añade una capa adicional de seguridad más allá de solo las contraseñas.
-5. **Monitorea el uso del teclado:** Algunas soluciones de seguridad pueden detectar comportamientos anómalos en el uso del teclado.
+## ⚙️ Configuración y Uso
 
-## Disclaimer
+### 1. Crear el Payload
 
-Este proyecto es únicamente con fines educativos. **No me hago responsable del uso indebido de este software.** NinjaSpy está diseñado para ayudar a entender el funcionamiento básico de un keylogger y fomentar la ciberseguridad. No utilices esta herramienta con fines no éticos o ilegales.
+Ejecuta el builder interactivo para generar el keylogger y compilar el `.exe`:
+
+```bash
+python builder.py
+```
+
+- Introduce tu `TOKEN` de Telegram.
+- Proporciona tu `CHAT_ID` (puedes usar [@userinfobot](https://t.me/userinfobot) para obtenerlo).
+- Opcionalmente define un nombre para el ejecutable final.
+
+Se generará:
+
+- `NinjaSpy.py` con tu configuración.
+- `NinjaSpy.exe` en el directorio `dist/`.
+- Una **clave Fernet** para desencriptar logs (¡guárdala!).
+
+---
+
+### 2. Ejecutar el Payload
+
+Ejecuta el `.exe` en la máquina objetivo. Se ejecuta en segundo plano y cada 60 segundos:
+
+- Recolecta datos del sistema.
+- Cifra el registro del teclado.
+- Envía el log `.enc` a tu bot de Telegram.
+
+---
+
+## 🔓 Desencriptar Logs
+
+Para recuperar el contenido de un log cifrado recibido:
+
+```bash
+python builder.py
+```
+
+Selecciona la opción de desencriptar e ingresa:
+
+- Ruta del archivo `.enc` descargado de Telegram.
+- Clave Fernet generada al construir el payload.
+- Nombre del archivo de salida (por ejemplo, `log.txt`).
+
+---
+
+## 🛡️ Prevención contra Keyloggers
+
+1. **Mantén tu software actualizado:** Las actualizaciones corrigen vulnerabilidades explotables por keyloggers.
+2. **Utiliza un antivirus confiable:** Con escaneo heurístico y en tiempo real.
+3. **No ejecutes archivos desconocidos:** Revisa el origen de los `.exe` que usas.
+4. **Habilita autenticación multifactor:** Añade una capa adicional de seguridad.
+5. **Monitorea procesos sospechosos:** Usa herramientas como Process Explorer o Task Manager avanzado.
+
+---
+
+## ⚠️ Disclaimer
+
+Este proyecto es únicamente con fines **educativos y éticos**.  
+**El autor no se responsabiliza** por el uso indebido de este software.  
+NinjaSpy fue creado para aprender sobre seguridad informática, y **no debe utilizarse con fines maliciosos ni sin el consentimiento de terceros.**
+
+---
+
+
